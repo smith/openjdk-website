@@ -14,7 +14,7 @@
   "author": "Joe Brady",
   "dependencies": {
     "@uifabric/fluent-theme": "^0.16.7",
-    "gatsby": "^2.7.5",
+    "gatsby": "^2.4.0",
     "graphql": "^14.3.1",
     "office-ui-fabric-react": "^6.176.0",
     "react": "^16.8.6",
