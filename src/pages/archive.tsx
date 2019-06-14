@@ -1,4 +1,4 @@
-import React, {FunctionComponent} from 'react'
+import React, {FunctionComponent, SyntheticEvent} from 'react'
 import Layout from '../components/Layout'
 
 export interface ArchiveProps {
@@ -6,10 +6,23 @@ export interface ArchiveProps {
 
 import "../scss/styles-12-archive.scss"
 import ArchiveReleaseRow from "../components/Archive/ArchiveReleaseRow";
+import ReleaseSelector from "../components/ReleaseSelector";
+import Loading from "../components/Loading";
+import NavButton from "../components/NavButton";
 
 const Archive: FunctionComponent<ArchiveProps> = props => {
 
+    const loading = false
+    const error = false
     const releases = []
+
+    if(loading) {
+        return <Loading />
+    }
+
+    if(error) {
+        return <div id="error-container" />
+    }
 
     return (
         <Layout>
@@ -19,36 +32,16 @@ const Archive: FunctionComponent<ArchiveProps> = props => {
                     <h1 className="large-title">Archive</h1>
 
                     <div className="callout">
-                        <p>Please be aware that using old, superseded, or otherwise unsupported releases is not
-                            recommended.</p>
+                        <p>Please be aware that using old, superseded, or otherwise unsupported releases is not recommended.</p>
                     </div>
 
-                    <a href="./releases.html" id="latest-button" className="blue-button a-button">
-                        <div>
-                            <span>Latest release</span>
-                            <i className="fa fa-arrow-circle-o-right" aria-hidden="true"/>
-                        </div>
-                    </a>
-                    <a href="./nightly.html" id="nightly-button" className="grey-button a-button">
-                        <div>
-                            <span>Nightly builds</span>
-                            <i className="fa fa-arrow-circle-o-right" aria-hidden="true"/>
-                        </div>
-                    </a>
+                    <NavButton href="releases" type="primary">Latest Releases</NavButton>
+                    <NavButton href="nightly" type="secondary">Nightly Builds</NavButton>
 
-                    <div className="btn-container">
-                        <form id="jdk-selector" className="btn-form">
-                            <h3>1. Choose a Version</h3>
-                        </form>
-                        <form id="jvm-selector" className="btn-form">
-                            <h3>2. Choose a JVM</h3>
-                        </form>
-                    </div>
-
-                    <div id="loading">
-                        <img src="dist/assets/loading_dots.gif" width="40" height="40" alt="Content is loading."/>
-                    </div>
-                    <div id="error-container"></div>
+                    <ReleaseSelector
+                        onVersionChange={(e: SyntheticEvent)=> {console.log(e)}}
+                        onJVMChange={(e: SyntheticEvent)=> {console.log(e)}}
+                    />
 
                     <div id="archive-list" className="hide">
                         <div id="pagination-container"></div>

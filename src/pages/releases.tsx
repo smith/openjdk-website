@@ -1,15 +1,18 @@
-import React, {FunctionComponent} from "react"
-import {ChoiceGroup} from "office-ui-fabric-react/lib/ChoiceGroup"
-
+import React, {FunctionComponent, SyntheticEvent} from "react"
 import Layout from "../components/Layout"
-import ReleasesPlatforms from "../components/ReleasesPlatforms"
+import Loading from "../components/Loading"
+import ReleasesPlatforms from "../components/Releases/ReleasesPlatforms"
+import ReleaseSelector from "../components/ReleaseSelector"
 
 import "../scss/styles-4-releases.scss"
+import NavButton from "../components/NavButton";
 
-export interface ReleasesProps {}
+export interface ReleasesProps {
+}
 
 export const Releases: FunctionComponent<ReleasesProps> = props => {
 
+    const loading = false
     const platforms = [{
         name: 'X64_LINUX',
         logo: '',
@@ -28,68 +31,29 @@ export const Releases: FunctionComponent<ReleasesProps> = props => {
         ]
     }]
 
+    if (loading) {
+        <Loading/>
+    }
+
     return (
         <Layout>
             <main className="grey-bg">
-                <div id="latest-page" style={{marginBottom: '2rem'}}>
+                <div id="latest-page">
                     <h1 className="large-title">Latest release</h1>
 
-                    <div>
-                        <a href="./archive.html" className="blue-button a-button">
-                            <div>
-                                <span>Build archive</span>
-                                <i className="fa fa-arrow-circle-o-right" aria-hidden="true" />
-                            </div>
-                        </a>
-                        <a href="./nightly.html" id="nightly-button" className="grey-button a-button">
-                            <div>
-                                <span>Nightly builds</span>
-                                <i className="fa fa-arrow-circle-o-right" aria-hidden="true" />
-                            </div>
-                        </a>
-
-                        <div className="btn-container">
-                            <form id="jdk-selector" className="btn-form">
-                                <h3>1. Choose a Version</h3>
-                                <ChoiceGroup
-                                    defaultSelectedKey="A"
-                                    options={[
-                                        {
-                                            key: 'A',
-                                            text: 'OpenJDK 8 (LDS)'
-                                        },
-                                        {
-                                            key: 'B',
-                                            text: 'OpenJDK 9'
-                                        },
-                                        {
-                                            key: 'C',
-                                            text: 'OpenJDK 10'
-                                        }
-                                    ]}
-                                />
-                            </form>
-                            <form id="jvm-selector" className="btn-form">
-                                <h3>2. Choose a JVM</h3>
-                                <ChoiceGroup
-                                    defaultSelectedKey="A"
-                                    options={[
-                                        {
-                                            key: 'A',
-                                            text: 'HotSpot'
-                                        },
-                                        {
-                                            key: 'B',
-                                            text: 'OpenJ9'
-                                        }
-                                    ]}
-                                />
-                            </form>
-                        </div>
-                    </div>
+                    <NavButton href="./archive" type="primary">Build archive</NavButton>
+                    <NavButton href="./nightly" type="secondary">Nightly builds</NavButton>
+                    <ReleaseSelector
+                        onVersionChange={(e: SyntheticEvent) => {
+                            console.log(e)
+                        }}
+                        onJVMChange={(e: SyntheticEvent) => {
+                            console.log(e)
+                        }}
+                    />
 
                     <div id="latest-container">
-                        <ReleasesPlatforms platforms={platforms} />
+                        <ReleasesPlatforms platforms={platforms}/>
                     </div>
                 </div>
             </main>
